@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio XR Multiplataforma · UMNG</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar__brand">
+      <span class="topbar__dot"></span>
+      <span class="topbar__title">LAB·XR</span>
+      <span class="topbar__sub">Realidad Virtual — Ing. Mecatrónica — UMNG</span>
+    </div>
+    <div class="topbar__status">Fase activa: <b id="status-phase">1 / 3</b></div>
+  </header>
+
+  <main class="shell">
+
+    <section class="hero">
+      <div>
+        <p class="hero__eyebrow">Práctica de laboratorio</p>
+        <h1>Ambientes de Realidad Extendida multiplataforma con A-Frame</h1>
+        <p>
+          Recorre las tres fases del procedimiento — escena básica, modelado industrial
+          con primitivas e integración de un ensamblaje CAD — y visualiza cada resultado
+          directamente en el navegador, sin salir de este panel.
+        </p>
+      </div>
+      <div class="hero__specs">
+        <span><b>Framework:</b> A-Frame 1.4.1 (Three.js / WebGL)</span>
+        <span><b>Plataformas:</b> desktop · móvil · VR cardboard · AR · Meta Quest 3</span>
+        <span><b>Entrega final:</b> ensamblaje CAD exportado a GLB</span>
+      </div>
+    </section>
+
+    <nav class="phase-nav" id="phase-nav">
+      <button class="is-active" data-phase="1" data-src="fases/fase1.html">
+        <span class="code">FASE 01</span>
+        <span class="label">Escena básica en A-Frame</span>
+      </button>
+      <button data-phase="2" data-src="fases/fase2.html">
+        <span class="code">FASE 02</span>
+        <span class="label">Modelado industrial con primitivas</span>
+      </button>
+      <button data-phase="3" data-src="fases/fase3.html">
+        <span class="code">FASE 03</span>
+        <span class="label">Integración de modelo CAD externo</span>
+      </button>
+    </nav>
+
+    <div class="viewport">
+      <span class="viewport__corner tl"></span>
+      <span class="viewport__corner tr"></span>
+      <span class="viewport__corner bl"></span>
+      <span class="viewport__corner br"></span>
+      <span class="viewport__tag" id="viewport-tag">fases/fase1.html</span>
+      <iframe id="scene-frame" src="fases/fase1.html" title="Vista de la escena A-Frame" allow="xr-spatial-tracking; camera; gyroscope; accelerometer"></iframe>
+    </div>
+
+    <section class="info-strip">
+      <div class="card">
+        <h2 id="info-title">Fase 1 — Escena básica en A-Frame</h2>
+        <ul id="info-list">
+          <li>Estructura base de un archivo HTML con la librería de A-Frame.</li>
+          <li>Primitivas geométricas: a-box, a-sphere, a-cylinder, a-plane y a-sky.</li>
+          <li>Arrastra dentro del visor para orbitar la cámara; usa W A S D para desplazarte.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Ficha técnica</h2>
+        <div class="readout" id="readout">
+          <div class="row"><span>Archivo</span><span>fases/fase1.html</span></div>
+          <div class="row"><span>Entidades</span><span>4 primitivas + cielo</span></div>
+          <div class="row"><span>Plataformas de prueba</span><span>Desktop / Móvil / VR / AR / Quest 3</span></div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>Universidad Militar Nueva Granada · Laboratorio de Realidad Virtual</span>
+      <span>GL-AA-F-1 · Rev. 3</span>
+    </footer>
+
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

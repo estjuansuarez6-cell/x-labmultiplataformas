@@ -1,0 +1,17 @@
+Coloca aquí el archivo modelo.glb correspondiente a la Fase 3.
+
+Flujo sugerido (según la guía de laboratorio):
+1. Diseñar el ensamblaje en SolidWorks.
+2. Exportar a STL.
+3. Importar el STL en Blender.
+4. Optimizar la geometría (reducir polígonos, simplificar materiales/texturas).
+5. Exportar como modelo.glb y guardarlo en esta carpeta (models/modelo.glb).
+
+Recomendaciones de GitHub / WebXR (ver guía, sección 11 Nota):
+- Tamaño máximo recomendado para subida web directa: 25 MB.
+- Límite absoluto de Git: 100 MB.
+- Mantener el GLB por debajo de 20-25 MB para garantizar carga rápida,
+  compatibilidad móvil y buen rendimiento en WebXR.
+
+Mientras este archivo no exista, la página fases/fase3.html mostrará
+automáticamente un marcador de referencia (caja + cilindro) en su lugar.

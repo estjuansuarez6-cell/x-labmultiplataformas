@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Fase 2 · Celda de manufactura</title>
+<script src="https://cdn.jsdelivr.net/npm/aframe@1.4.1/dist/aframe-master.min.js"></script>
+</head>
+<body style="margin:0;background:#060a11;">
+
+  <a-scene embedded vr-mode-ui="enabled: true" xr-mode-ui="enabled: true">
+
+    <a-assets>
+      <img id="floorTex" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
+    </a-assets>
+
+    <!-- Piso de la celda -->
+    <a-plane rotation="-90 0 0" width="14" height="14" color="#233042"></a-plane>
+    <a-sky color="#0d1420"></a-sky>
+
+    <!-- ===================== Banda transportadora ===================== -->
+    <a-entity id="conveyor" position="-3 0 -5">
+      <a-box position="0 0.5 0" width="4" height="0.15" depth="1" color="#5C6773"></a-box>
+      <a-cylinder position="-1.8 0.5 0" radius="0.2" height="1.05" rotation="0 0 90" color="#3FA7A0"></a-cylinder>
+      <a-cylinder position="1.8 0.5 0" radius="0.2" height="1.05" rotation="0 0 90" color="#3FA7A0"></a-cylinder>
+      <!-- pieza transportada -->
+      <a-box position="-1 0.68 0" width="0.35" height="0.35" depth="0.35" color="#FFC65D"
+             animation="property: position; to: 1 0.68 0; dir: alternate; dur: 3500; loop: true; easing: linear"></a-box>
+    </a-entity>
+
+    <!-- ===================== Tanque de almacenamiento ===================== -->
+    <a-entity id="tank" position="3 0 -6">
+      <a-cylinder position="0 1 0" radius="0.9" height="2" color="#2E86AB"></a-cylinder>
+      <a-cylinder position="0 2.05 0" radius="0.95" height="0.1" color="#1C5C79"></a-cylinder>
+      <!-- indicador de nivel -->
+      <a-sphere position="0.95 1.6 0" radius="0.08" color="#3FA7A0" emissive="#3FA7A0" emissive-intensity="0.6"></a-sphere>
+    </a-entity>
+
+    <!-- ===================== Sistema robotizado básico ===================== -->
+    <a-entity id="robot-arm" position="0 0 -3.5" rotation="0 0 0"
+              animation="property: rotation; to: 0 60 0; dir: alternate; dur: 2600; loop: true; easing: easeInOutSine">
+      <a-cylinder position="0 0.15 0" radius="0.5" height="0.3" color="#2B3B52"></a-cylinder>
+      <a-cylinder position="0 0.9 0" radius="0.18" height="1.5" color="#EF2D5E"></a-cylinder>
+      <a-box position="0.55 1.6 0" width="1" height="0.18" depth="0.18" color="#4CC3D9"
+             rotation="0 0 -20"></a-box>
+      <!-- sensor / efector final -->
+      <a-sphere position="1.1 1.35 0" radius="0.12" color="#FFC65D" emissive="#FFC65D" emissive-intensity="0.5"></a-sphere>
+    </a-entity>
+
+    <!-- Paredes de referencia (jerarquía espacial de la celda) -->
+    <a-plane position="0 2.5 -8" width="14" height="5" color="#152030"></a-plane>
+
+    <a-entity camera look-controls wasd-controls position="0 1.6 3"></a-entity>
+  </a-scene>
+
+</body>
+</html>

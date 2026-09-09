@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Fase 3 · Integración CAD</title>
+<script src="https://cdn.jsdelivr.net/npm/aframe@1.4.1/dist/aframe-master.min.js"></script>
+<style>
+  #cad-status{
+    position:fixed; top:10px; left:50%; transform:translateX(-50%);
+    font: 12px 'IBM Plex Mono', monospace; color:#e8edf3;
+    background:rgba(11,18,29,0.85); border:1px solid #22344a;
+    padding:6px 12px; border-radius:4px; z-index:20; text-align:center;
+    max-width: 92%;
+  }
+</style>
+</head>
+<body style="margin:0;background:#060a11;">
+
+  <div id="cad-status">Cargando models/modelo.glb…</div>
+
+  <a-scene embedded vr-mode-ui="enabled: true" xr-mode-ui="enabled: true">
+
+    <a-assets timeout="4000">
+      <a-asset-item id="modeloIndustrial" src="../models/modelo.glb"></a-asset-item>
+    </a-assets>
+
+    <a-plane rotation="-90 0 0" width="12" height="12" color="#233042"></a-plane>
+    <a-sky color="#0d1420"></a-sky>
+
+    <!-- Modelo CAD real: se muestra si models/modelo.glb existe -->
+    <a-entity id="cad-model"
+              gltf-model="#modeloIndustrial"
+              position="0 0 -5"
+              scale="1 1 1"
+              visible="false"></a-entity>
+
+    <!-- Marcador de reemplazo: aparece solo si el GLB no carga -->
+    <a-entity id="cad-placeholder" position="0 0 -5" visible="false">
+      <a-box position="0 0.6 0" width="1.6" height="1.2" depth="1.6" color="#5C6773"></a-box>
+      <a-cylinder position="0 1.5 0" radius="0.4" height="0.6" color="#FF7A33"></a-cylinder>
+      <a-text value="ENSAMBLAJE CAD\n(reemplazar con modelo.glb)" align="center"
+              position="0 2.3 0" width="4" color="#E8EDF3"></a-text>
+    </a-entity>
+
+    <a-entity camera look-controls wasd-controls position="0 1.6 2"></a-entity>
+  </a-scene>
+
+  <script>
+    const model = document.querySelector('#cad-model');
+    const placeholder = document.querySelector('#cad-placeholder');
+    const status = document.querySelector('#cad-status');
+
+    model.addEventListener('model-loaded', () => {
+      model.setAttribute('visible', true);
+      status.textContent = 'models/modelo.glb cargado correctamente.';
+      setTimeout(() => status.style.display = 'none', 2500);
+    });
+
+    model.addEventListener('model-error', () => {
+      placeholder.setAttribute('visible', true);
+      status.textContent = 'No se encontró models/modelo.glb — mostrando marcador de referencia. Exporta tu ensamblaje de SolidWorks a STL, optimízalo en Blender y guárdalo como models/modelo.glb.';
+    });
+  </script>
+
+</body>
+</html>
