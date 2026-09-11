@@ -1,45 +1,64 @@
-# Laboratorio XR Multiplataforma — A-Frame
+# XR Lab Multiplataforma — A-Frame (UMNG)
 
-Proyecto correspondiente a la guía **"Desarrollo de Ambientes de Realidad Extendida (XR)
-Multiplataforma con A-Frame"** (Realidad Virtual, Ingeniería Mecatrónica, UMNG).
+Guía de laboratorio: **Desarrollo de Ambientes de Realidad Extendida (XR)
+Multiplataforma con A-Frame** (Realidad Virtual, Ing. Mecatrónica, UMNG).
 
-## Cómo verlo
+## Novedades de esta versión
 
-Abre `index.html` en un navegador. El panel principal tiene tres botones — **Fase 01**,
-**Fase 02** y **Fase 03** — que cargan cada escena dentro del visor sin salir de la página.
+- Interfaz con el escudo de la UMNG en la barra lateral, en paleta institucional
+  (azul marino + dorado) en lugar del azul corporativo genérico anterior.
+- **Fase 1**: nuevo orden de primitivas (cilindro → caja → esfera), nueva paleta
+  de color (terracota / verde azulado / morado) y nuevo entorno (piso e
+  iluminación cálidos, niebla suave).
+- **Fase 2**: el tanque se reemplazó por un **silo con tolva** (a-cylinder +
+  a-cone) y el brazo robótico por una **grúa pórtico** (a-box + a-torus) con
+  un carro que se desplaza sobre la viga.
+- **Fase 3**: ahora carga tu pieza real `models/Cubo_v1.glb` ("N_1", exportada
+  de SolidWorks) y la reescala/centra automáticamente al vuelo, porque venía
+  en un tamaño real de apenas ~2.6 cm y por eso antes no se veía nada.
 
 ## Estructura
 
 ```
-xr-lab/
-├── index.html          → panel principal con navegación entre fases
-├── css/style.css        → identidad visual compartida
-├── js/app.js             → lógica de cambio de fase
+xr-lab-v4/
+├── index.html            → hub con tarjetas hacia cada fase
+├── assets/umng-logo.png   → escudo de la universidad
+├── css/xr-ui.css           → sistema visual compartido (barra lateral, paleta UMNG)
 ├── fases/
-│   ├── fase1.html        → Parte A: escena básica (primitivas)
-│   ├── fase2.html         → Parte C: modelo industrial con primitivas
-│   └── fase3.html          → Parte D: integración de modelo CAD (GLB)
+│   ├── fase1.html           → Parte A: escena básica reordenada
+│   ├── fase2.html            → Parte C: silo + banda + grúa pórtico
+│   └── fase3.html             → Parte D: integración de Cubo_v1.glb (con auto-ajuste)
 └── models/
-    └── LEEME.txt           → instrucciones para colocar modelo.glb
+    ├── LEEME.txt               → instrucciones para reemplazar el modelo
+    └── Cubo_v1.glb              → tu pieza "N_1" (~10 MB)
 ```
 
-## Fase 3 — modelo CAD propio
+## Por qué la Fase 3 se veía en blanco
 
-`fases/fase3.html` intenta cargar `models/modelo.glb`. Si no existe, muestra
-automáticamente un marcador de referencia (caja + cilindro) para que la página nunca
-quede vacía. Para ver tu propio ensamblaje:
-
-1. Exporta el ensamblaje de SolidWorks a `.stl`.
-2. Impórtalo en Blender y optimiza la geometría (reduce polígonos, simplifica texturas).
-3. Exporta como `.glb` y guárdalo como `models/modelo.glb`.
-4. Recarga `fases/fase3.html` (o la Fase 03 desde el panel principal).
+Tu primer archivo llegó vacío (0 KB); ya está resuelto con el que subiste
+después. Ese segundo archivo sí es válido, pero es una pieza real de apenas
+~2.6 cm exportada en metros — a escala 1:1 dentro de la escena era
+prácticamente invisible. `fase3.html` ahora calcula la caja envolvente real
+del modelo apenas termina de cargar y lo reescala/centra para que siempre se
+vea a un tamaño legible, sin importar en qué unidades venga el archivo.
+Si reemplazas el GLB por otro ensamblaje, este ajuste se aplica igual.
 
 ## Publicar en GitHub Pages
 
 1. Sube esta carpeta a un repositorio público de GitHub.
-2. Activa **Settings → Pages**, con `Branch: main` y `Folder: /root`.
-3. GitHub generará una URL pública `https://usuario.github.io/nombre-repositorio/`.
-4. Prueba la escena en escritorio, móvil, modo VR, modo AR y en el navegador del Meta Quest 3.
+2. Activa **Settings → Pages** con `Branch: main`, `Folder: /root`.
+3. Prueba `index.html` y las tres fases en escritorio, móvil, modo VR, modo AR y
+   en el navegador del Meta Quest 3.
 
-Recuerda mantener cualquier archivo `.glb` por debajo de 20–25 MB para garantizar
-carga rápida y buen rendimiento en WebXR.
+## Si pruebas en tu computador antes de subirlo
+
+Algunos navegadores bloquean la carga de archivos `.glb` locales cuando abres
+`index.html` con doble clic (protocolo `file://`). Si la Fase 3 no carga el
+modelo aunque el archivo esté bien, prueba a servir la carpeta con un
+servidor local, por ejemplo:
+
+```
+python3 -m http.server 8080
+```
+
+y abre `http://localhost:8080` en el navegador.

@@ -1,56 +1,128 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Fase 2 · Celda de manufactura</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fase 2 · Celda de manufactura — XR Lab UMNG</title>
+<link rel="stylesheet" href="../css/xr-ui.css">
 <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.1/dist/aframe-master.min.js"></script>
 </head>
-<body style="margin:0;background:#060a11;">
+<body>
 
-  <a-scene embedded vr-mode-ui="enabled: true" xr-mode-ui="enabled: true">
+  <div class="xr-header">
+    <div class="xr-header__bar">
+      <div class="brand">
+        <img src="../assets/umng-logo.png" alt="Escudo UMNG" class="brand__logo">
+        <div class="brand__text">
+          <h1>Fase 2 — Celda de manufactura</h1>
+          <div class="school">index.html / fases / fase2.html</div>
+        </div>
+      </div>
+      <a href="../index.html" class="xr-header__badge">← Panel principal</a>
+    </div>
+    <div class="xr-toolbar">
+      <button class="chip is-active" data-target="todo"><span class="chip__dot" style="background:#5b6472"></span>Celda completa</button>
+      <button class="chip" data-target="silo"><span class="chip__dot" style="background:#E9C46A"></span>Silo</button>
+      <button class="chip" data-target="banda"><span class="chip__dot" style="background:#264653"></span>Banda transportadora</button>
+      <button class="chip" data-target="grua"><span class="chip__dot" style="background:#E76F51"></span>Grúa pórtico</button>
+    </div>
+  </div>
 
-    <a-assets>
-      <img id="floorTex" src="https://cdn.aframe.io/a-painter/images/floor.jpg">
-    </a-assets>
+  <div class="xr-info" id="info">
+    <span class="tag">PARTE C · MODELADO INDUSTRIAL</span>
+    <strong>Celda de manufactura completa</strong>
+    Silo, banda transportadora y grúa pórtico construidos con primitivas, con jerarquías espaciales y escalamiento propio por componente.
+  </div>
+  <div class="xr-hint">click + arrastrar: mirar · WASD: moverte</div>
 
-    <!-- Piso de la celda -->
-    <a-plane rotation="-90 0 0" width="14" height="14" color="#233042"></a-plane>
-    <a-sky color="#0d1420"></a-sky>
+  <a-scene vr-mode-ui="enabled: true" xr-mode-ui="enabled: true" fog="type: linear; color: #dfe6ee; near: 10; far: 26">
 
-    <!-- ===================== Banda transportadora ===================== -->
-    <a-entity id="conveyor" position="-3 0 -5">
-      <a-box position="0 0.5 0" width="4" height="0.15" depth="1" color="#5C6773"></a-box>
-      <a-cylinder position="-1.8 0.5 0" radius="0.2" height="1.05" rotation="0 0 90" color="#3FA7A0"></a-cylinder>
-      <a-cylinder position="1.8 0.5 0" radius="0.2" height="1.05" rotation="0 0 90" color="#3FA7A0"></a-cylinder>
-      <!-- pieza transportada -->
-      <a-box position="-1 0.68 0" width="0.35" height="0.35" depth="0.35" color="#FFC65D"
-             animation="property: position; to: 1 0.68 0; dir: alternate; dur: 3500; loop: true; easing: linear"></a-box>
+    <a-plane rotation="-90 0 0" width="30" height="30" color="#c9d2dc"></a-plane>
+    <a-sky color="#dfe6ee"></a-sky>
+    <a-plane position="0 3 -9" width="18" height="6" color="#b9c4d1"></a-plane>
+
+    <a-light type="ambient" color="#eef2f7" intensity="0.6"></a-light>
+    <a-light type="directional" color="#ffffff" intensity="0.5" position="2 5 3"></a-light>
+
+    <!-- Silo de almacenamiento (antes: tanque) -->
+    <a-entity id="grupo-silo" position="-4.5 0 -5">
+      <a-cone position="0 0.35 0" radius-bottom="0.15" radius-top="0.75" height="0.7" color="#264653"></a-cone>
+      <a-cylinder position="0 1.4 0" radius="0.75" height="1.4" color="#E9C46A"></a-cylinder>
+      <a-cone position="0 2.35 0" radius-bottom="0.75" radius-top="0" height="0.7" color="#264653"></a-cone>
+      <a-cylinder position="0.3 1.4 0.7" radius="0.03" height="1.4" color="#8a6d1f"></a-cylinder>
+      <a-text value="SILO DE ALMACENAMIENTO" position="0 3.1 0" align="center" color="#14181f" width="5"></a-text>
     </a-entity>
 
-    <!-- ===================== Tanque de almacenamiento ===================== -->
-    <a-entity id="tank" position="3 0 -6">
-      <a-cylinder position="0 1 0" radius="0.9" height="2" color="#2E86AB"></a-cylinder>
-      <a-cylinder position="0 2.05 0" radius="0.95" height="0.1" color="#1C5C79"></a-cylinder>
-      <!-- indicador de nivel -->
-      <a-sphere position="0.95 1.6 0" radius="0.08" color="#3FA7A0" emissive="#3FA7A0" emissive-intensity="0.6"></a-sphere>
+    <!-- Banda transportadora -->
+    <a-entity id="grupo-banda" position="0 0 -5">
+      <a-box position="0 0.45 0" width="5" height="0.18" depth="1" color="#5B6472"></a-box>
+      <a-cylinder position="-2.3 0.45 0" radius="0.22" height="1.05" rotation="0 0 90" color="#264653"></a-cylinder>
+      <a-cylinder position="2.3 0.45 0" radius="0.22" height="1.05" rotation="0 0 90" color="#264653"></a-cylinder>
+      <a-box position="-2 0.68 0" width="0.38" height="0.38" depth="0.38" color="#E76F51"
+             animation="property: position; from: -2 0.68 0; to: 2 0.68 0; dir: alternate; dur: 4200; loop: true; easing: linear"></a-box>
+      <a-text value="BANDA TRANSPORTADORA" position="0 1.15 0" align="center" color="#14181f" width="5"></a-text>
     </a-entity>
 
-    <!-- ===================== Sistema robotizado básico ===================== -->
-    <a-entity id="robot-arm" position="0 0 -3.5" rotation="0 0 0"
-              animation="property: rotation; to: 0 60 0; dir: alternate; dur: 2600; loop: true; easing: easeInOutSine">
-      <a-cylinder position="0 0.15 0" radius="0.5" height="0.3" color="#2B3B52"></a-cylinder>
-      <a-cylinder position="0 0.9 0" radius="0.18" height="1.5" color="#EF2D5E"></a-cylinder>
-      <a-box position="0.55 1.6 0" width="1" height="0.18" depth="0.18" color="#4CC3D9"
-             rotation="0 0 -20"></a-box>
-      <!-- sensor / efector final -->
-      <a-sphere position="1.1 1.35 0" radius="0.12" color="#FFC65D" emissive="#FFC65D" emissive-intensity="0.5"></a-sphere>
+    <!-- Grúa pórtico (antes: brazo robótico) -->
+    <a-entity id="grupo-grua" position="4.5 0 -5">
+      <a-box position="-1 1 0" width="0.18" height="2" depth="0.18" color="#E76F51"></a-box>
+      <a-box position="1 1 0" width="0.18" height="2" depth="0.18" color="#E76F51"></a-box>
+      <a-box position="0 2 0" width="2.3" height="0.18" depth="0.18" color="#E76F51"></a-box>
+      <a-entity id="carro-grua"
+                animation="property: position; from: -0.9 1.75 0; to: 0.9 1.75 0; dir: alternate; dur: 3200; loop: true; easing: easeInOutSine">
+        <a-box width="0.3" height="0.15" depth="0.3" color="#264653"></a-box>
+        <a-cylinder position="0 -0.35 0" radius="0.02" height="0.6" color="#264653"></a-cylinder>
+        <a-torus position="0 -0.68 0" radius="0.1" radius-tubular="0.015" rotation="90 0 0" color="#E9C46A"></a-torus>
+      </a-entity>
+      <a-text value="GRÚA PÓRTICO" position="0 2.55 0" align="center" color="#14181f" width="5"></a-text>
     </a-entity>
 
-    <!-- Paredes de referencia (jerarquía espacial de la celda) -->
-    <a-plane position="0 2.5 -8" width="14" height="5" color="#152030"></a-plane>
-
-    <a-entity camera look-controls wasd-controls position="0 1.6 3"></a-entity>
+    <a-entity id="rig" position="0 2.4 2">
+      <a-camera look-controls wasd-controls>
+        <a-cursor color="#FAFAFA"></a-cursor>
+      </a-camera>
+    </a-entity>
   </a-scene>
+
+  <script>
+    const info = {
+      todo:  { tag: "PARTE C · MODELADO INDUSTRIAL", title: "Celda de manufactura completa", text: "Silo, banda transportadora y grúa pórtico construidos con primitivas, con jerarquías espaciales y escalamiento propio por componente." },
+      silo:  { tag: "a-cylinder + a-cone ×2", title: "Silo de almacenamiento", text: "Cuerpo cilíndrico con una tolva inferior y una tapa superior hechas con a-cone; un tubo lateral delgado simula una escalera." },
+      banda: { tag: "a-box + a-cylinder", title: "Banda transportadora", text: "Estructura en a-box, rodillos en a-cylinder rotados 90° y una pieza que se traslada mediante animation." },
+      grua:  { tag: "a-box + a-torus", title: "Grúa pórtico", text: "Dos columnas y una viga en a-box forman el pórtico; un carro con gancho (a-torus) se desplaza a lo largo de la viga." }
+    };
+
+    const groups = {
+      silo:  document.querySelector('#grupo-silo'),
+      banda: document.querySelector('#grupo-banda'),
+      grua:  document.querySelector('#grupo-grua')
+    };
+
+    const spots = {
+      todo:  { x: 0,    y: 2.4, z: 2  },
+      silo:  { x: -4.5, y: 1.6, z: -2 },
+      banda: { x: 0,    y: 1.6, z: -2 },
+      grua:  { x: 4.5,  y: 1.6, z: -2 }
+    };
+
+    const rig = document.querySelector('#rig');
+    const infoBox = document.querySelector('#info');
+    const chips = document.querySelectorAll('.chip');
+
+    function focusOn(target){
+      Object.keys(groups).forEach(k => groups[k].setAttribute('visible', target === 'todo' || k === target));
+
+      const s = spots[target];
+      rig.setAttribute('animation', { property: 'position', to: `${s.x} ${s.y} ${s.z}`, dur: 700, easing: 'easeInOutQuad' });
+
+      chips.forEach(c => c.classList.toggle('is-active', c.dataset.target === target));
+
+      const d = info[target];
+      infoBox.innerHTML = `<span class="tag">${d.tag}</span><strong>${d.title}</strong>${d.text}`;
+    }
+
+    chips.forEach(c => c.addEventListener('click', () => focusOn(c.dataset.target)));
+  </script>
 
 </body>
 </html>
