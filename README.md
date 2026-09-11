@@ -14,8 +14,8 @@ Multiplataforma con A-Frame** (Realidad Virtual, Ing. Mecatrónica, UMNG).
   a-cone) y el brazo robótico por una **grúa pórtico** (a-box + a-torus) con
   un carro que se desplaza sobre la viga.
 - **Fase 3**: ahora carga tu pieza real `models/Cubo_v1.glb` ("N_1", exportada
-  de SolidWorks) y la reescala/centra automáticamente al vuelo, porque venía
-  en un tamaño real de apenas ~2.6 cm y por eso antes no se veía nada.
+  de SolidWorks), la reescala/centra automáticamente y **queda estática**
+  (sin giro automático) para poder analizarla con calma moviendo la cámara.
 
 ## Estructura
 

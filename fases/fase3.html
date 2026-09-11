@@ -54,8 +54,7 @@
               visible="false"></a-entity>
 
     <!-- Marcador de referencia (se activa si el GLB no está disponible) -->
-    <a-entity id="cad-placeholder" position="0 0 -5" visible="false"
-              animation="property: rotation; to: 0 360 0; dur: 18000; loop: true; easing: linear">
+    <a-entity id="cad-placeholder" position="0 0 -5" visible="false">
       <a-box position="0 0.55 0" width="1.5" height="1.1" depth="1.5" color="#5B6472"></a-box>
       <a-cylinder position="0 1.35 0" radius="0.35" height="0.55" color="#264653"></a-cylinder>
       <a-text value="ENSAMBLAJE PENDIENTE\ncoloca models/Cubo_v1.glb" align="center" position="0 2.1 0" width="4" color="#14181f"></a-text>
@@ -72,7 +71,7 @@
     const texts = {
       modelo: {
         loading:  { tag: "PARTE D · MODELO CAD", title: "Cargando models/Cubo_v1.glb…", text: "El ensamblaje se referencia desde la carpeta /models mediante a-asset-item." },
-        loaded:   { tag: "PARTE D · MODELO CAD", title: "Ensamblaje cargado", text: "models/Cubo_v1.glb se cargó, se centró y se reescaló automáticamente para verse bien sin importar sus unidades originales; ahora rota lentamente para su inspección." },
+        loaded:   { tag: "PARTE D · MODELO CAD", title: "Ensamblaje cargado", text: "models/Cubo_v1.glb se cargó, se centró y se reescaló automáticamente para verse bien sin importar sus unidades originales. Queda fijo: usa el mouse/WASD para girar alrededor y analizarlo." },
         missing:  { tag: "PARTE D · SIN ARCHIVO", title: "Aún no existe models/Cubo_v1.glb", text: "Se muestra un marcador de referencia. Vuelve a colocar el archivo Cubo_v1.glb (exportado a GLB) en la carpeta models/." }
       },
       pipeline: { tag: "FLUJO DE TRABAJO", title: "SolidWorks → Blender → A-Frame", text: "1) Diseñar el ensamblaje en SolidWorks · 2) Exportar a STL · 3) Importar en Blender y reducir polígonos · 4) Exportar como Cubo_v1.glb (< 25 MB) · 5) Referenciarlo con a-asset-item en la escena." }
@@ -111,7 +110,8 @@
       mesh.position.sub(center);          // centra la malla en su propio origen
       model.object3D.scale.setScalar(fitScale);
 
-      model.setAttribute('animation', 'property: rotation; to: 0 360 0; dur: 14000; loop: true; easing: linear');
+      // El modelo queda estático (sin animación de giro) para poder
+      // analizarlo con calma; usa la cámara (mouse/WASD) para rodearlo.
       model.setAttribute('visible', true);
       placeholder.setAttribute('visible', false);
 
