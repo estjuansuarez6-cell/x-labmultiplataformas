@@ -47,17 +47,17 @@
     <a-light type="directional" color="#ffffff" intensity="0.6" position="2 4 3"></a-light>
     <a-light type="directional" color="#ffffff" intensity="0.3" position="-2 2 -3"></a-light>
 
-    <!-- Modelo CAD real: Cubo_v1.glb (escala y centrado se ajustan por script, ver abajo) -->
+    <!-- Modelo CAD real: Cubo_v1.glb — sin position fija: el script lo coloca
+         una vez que conoce su tamaño real, para poder recentrarlo bien -->
     <a-entity id="cad-model"
               gltf-model="#modeloIndustrial"
-              position="0 1.3 -2"
               visible="false"></a-entity>
 
     <!-- Marcador de referencia (se activa si el GLB no está disponible) -->
-    <a-entity id="cad-placeholder" position="0 0 -3" visible="false">
-      <a-box position="0 0.55 0" width="1.5" height="1.1" depth="1.5" color="#5B6472"></a-box>
-      <a-cylinder position="0 1.35 0" radius="0.35" height="0.55" color="#264653"></a-cylinder>
-      <a-text value="ENSAMBLAJE PENDIENTE\ncoloca models/Cubo_v1.glb" align="center" position="0 2.1 0" width="4" color="#14181f"></a-text>
+    <a-entity id="cad-placeholder" position="0 0.3 -1.6" visible="false">
+      <a-box position="0 0.35 0" width="0.9" height="0.7" depth="0.9" color="#5B6472"></a-box>
+      <a-cylinder position="0 0.85 0" radius="0.22" height="0.35" color="#264653"></a-cylinder>
+      <a-text value="ENSAMBLAJE PENDIENTE\ncoloca models/Cubo_v1.glb" align="center" position="0 1.35 0" width="2.6" color="#14181f"></a-text>
     </a-entity>
 
     <a-entity id="rig" position="0 1.4 0.8">
@@ -93,9 +93,12 @@
       modelState = 'loaded';
 
       // Los modelos CAD exportados desde SolidWorks pueden venir en cualquier
-      // escala (metros, mm, piezas diminutas...). Este bloque calcula la caja
-      // envolvente real de la malla cargada y la reescala/centra para que
-      // siempre se vea a un tamaño consistente, sin importar el origen del archivo.
+      // escala (metros, mm, piezas diminutas...). Aquí calculamos la caja
+      // envolvente real de la malla MIENTRAS la entidad sigue en el origen
+      // (sin posición ni escala propias), para que el cálculo esté en el
+      // mismo espacio local que usaremos para recentrar y escalar. Recién al
+      // final movemos la entidad ya escalada hasta su posición final frente
+      // a la cámara — así la traslación no se ve afectada por el escalado.
       const mesh = evt.detail.model;
       const box = new THREE.Box3().setFromObject(mesh);
       const size = new THREE.Vector3();
@@ -104,14 +107,13 @@
       box.getCenter(center);
 
       const maxDim = Math.max(size.x, size.y, size.z) || 0.01;
-      const targetSize = 2.0; // tamaño objetivo en metros dentro de la escena
+      const targetSize = 1.5; // tamaño objetivo en metros dentro de la escena
       const fitScale = targetSize / maxDim;
 
-      mesh.position.sub(center);          // centra la malla en su propio origen
-      model.object3D.scale.setScalar(fitScale);
+      mesh.position.sub(center);                 // recentra la malla en el origen local
+      model.object3D.scale.setScalar(fitScale);  // escala ya con el pivote correcto
+      model.setAttribute('position', '0 1.1 -1.4'); // ubicación final, justo frente al spawn
 
-      // El modelo queda estático (sin animación de giro) para poder
-      // analizarlo con calma; usa la cámara (mouse/WASD) para rodearlo.
       model.setAttribute('visible', true);
       placeholder.setAttribute('visible', false);
 
